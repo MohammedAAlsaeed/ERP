@@ -5,27 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="initialize Next.js project with Tailwind CSS and ESLint configuration">
-      <change beforePath="$PROJECT_DIR$/Backend/test.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/AGENTS.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/CLAUDE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/eslint.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/next.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/postcss.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/window.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/src/app/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/src/app/globals.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/src/app/layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/src/app/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/erp/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/test.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/file.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/globe.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/next.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/vercel.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/window.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,80 +65,84 @@
       </RecentBranches>
     </option>
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/MohammedAAlsaeed/ERP.git",
-    "accountId": "0a069306-3e67-4012-a68d-0e55b9bb87b9"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MohammedAAlsaeed/ERP.git&quot;,
+    &quot;accountId&quot;: &quot;0a069306-3e67-4012-a68d-0e55b9bb87b9&quot;
   }
-}]]></component>
+}</component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.5001769700777778" />
-      <entry key="MS500" value="2.7527628426768187" />
-      <entry key="S2" value="5.445895230690775" />
-      <entry key="S5" value="7.706293846411582" />
-      <entry key="S10" value="10.994547105051595" />
-      <entry key="S30" value="18.12203086326103" />
-      <entry key="S60" value="22.629140122536835" />
-      <entry key="M2" value="26.34889417726458" />
-      <entry key="M5" value="31.244283175161264" />
-      <entry key="M10" value="41.68973457361021" />
-      <entry key="M15" value="52.535842772723626" />
-      <entry key="M30" value="76.14178124806082" />
-      <entry key="H1" value="98.32701715415861" />
-      <entry key="H2" value="113.99528266152493" />
-      <entry key="H4" value="123.37890541901473" />
-      <entry key="D1" value="132.13641848635442" />
-      <entry key="W1" value="133.73138219745243" />
+      <entry key="MS100" value="1.0036262796586204" />
+      <entry key="MS500" value="1.6099544128798233" />
+      <entry key="S2" value="2.968444330662343" />
+      <entry key="S5" value="3.529545453262302" />
+      <entry key="S10" value="3.7538048327510527" />
+      <entry key="S30" value="3.9153587106838126" />
+      <entry key="S60" value="3.957348211333856" />
+      <entry key="M2" value="3.978739734489902" />
+      <entry key="M5" value="4.532715129661003" />
+      <entry key="M10" value="13.190499845914369" />
+      <entry key="M15" value="29.03787569519973" />
+      <entry key="M30" value="78.36953269163406" />
+      <entry key="H1" value="140.3534049589645" />
+      <entry key="H2" value="192.9924903579242" />
+      <entry key="H4" value="228.06344944860564" />
+      <entry key="D1" value="263.215946519311" />
+      <entry key="W1" value="269.87140638120337" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
-      <entry key="S2" value="7.929123680120472E-214" />
-      <entry key="S5" value="8.272543806712241E-86" />
-      <entry key="S10" value="4.028790393949464E-43" />
-      <entry key="S30" value="1.1698686868614086E-14" />
-      <entry key="S60" value="1.529204077546406E-7" />
-      <entry key="M2" value="5.530469935772965E-4" />
-      <entry key="M5" value="0.07671226872571685" />
-      <entry key="M10" value="0.42390795050626917" />
-      <entry key="M15" value="0.7786672025208812" />
-      <entry key="M30" value="1.4867138485639444" />
-      <entry key="H1" value="2.0951198910481494" />
-      <entry key="H2" value="2.501751845309107" />
-      <entry key="H4" value="2.738080268863629" />
-      <entry key="D1" value="2.954441349654647" />
-      <entry key="W1" value="2.9934431825667334" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="3.1060947810158277E-146" />
+      <entry key="S10" value="1.762411637789485E-73" />
+      <entry key="S30" value="5.606637554680452E-25" />
+      <entry key="S60" value="7.490562350433977E-13" />
+      <entry key="M2" value="8.890101680759472E-7" />
+      <entry key="M5" value="0.005155933425810062" />
+      <entry key="M10" value="0.12395595124297829" />
+      <entry key="M15" value="0.3979104172911732" />
+      <entry key="M30" value="1.422795334599383" />
+      <entry key="H1" value="2.8511688993115825" />
+      <entry key="H2" value="4.109043939011635" />
+      <entry key="H4" value="4.956938617615885" />
+      <entry key="D1" value="5.810653433225484" />
+      <entry key="W1" value="5.972542274599932" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.466034051451277" />
-      <entry key="MS500" value="2.7396453601294675" />
-      <entry key="S2" value="5.4389198883928245" />
-      <entry key="S5" value="7.70228122041353" />
-      <entry key="S10" value="10.991103676651488" />
-      <entry key="S30" value="18.113058516736967" />
-      <entry key="S60" value="22.618839255539093" />
-      <entry key="M2" value="26.341406023573914" />
-      <entry key="M5" value="31.316227911069085" />
-      <entry key="M10" value="42.109863033254506" />
-      <entry key="M15" value="53.311178820147" />
-      <entry key="M30" value="77.62609486630271" />
-      <entry key="H1" value="100.42064435676119" />
-      <entry key="H2" value="116.49619432238111" />
-      <entry key="H4" value="126.1165388962089" />
-      <entry key="D1" value="135.0907813498507" />
-      <entry key="W1" value="136.7248140648799" />
+      <entry key="MS100" value="0.9365822565226026" />
+      <entry key="MS500" value="1.593007677417535" />
+      <entry key="S2" value="2.962139378601741" />
+      <entry key="S5" value="3.526663794534246" />
+      <entry key="S10" value="3.752291142070843" />
+      <entry key="S30" value="3.9148365495066937" />
+      <entry key="S60" value="3.9570848372655103" />
+      <entry key="M2" value="3.9786083506466103" />
+      <entry key="M5" value="4.5378045085204075" />
+      <entry key="M10" value="13.314217774168686" />
+      <entry key="M15" value="29.43525473822879" />
+      <entry key="M30" value="79.79127485542499" />
+      <entry key="H1" value="143.2034642308501" />
+      <entry key="H2" value="197.10071744668053" />
+      <entry key="H4" value="233.0198907189002" />
+      <entry key="D1" value="269.02650209550006" />
+      <entry key="W1" value="275.8439342703379" />
     </decayedShown>
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feat/install-next-laravel",
+    "git-widget-placeholder": "Develop",
     "node.js.selected.package.tslint": "(autodetect)",
     "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external"
   }
