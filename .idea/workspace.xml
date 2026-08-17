@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="Develop" />
+                    <option name="lastUsedInstant" value="1786959733" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1786959732" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MohammedAAlsaeed/ERP.git",
+    "accountId": "0a069306-3e67-4012-a68d-0e55b9bb87b9"
+  }
+}]]></component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.5448854446958635" />
+      <entry key="MS500" value="3.3134984529128846" />
+      <entry key="S2" value="5.5042896650297415" />
+      <entry key="S5" value="6.329101698301948" />
+      <entry key="S10" value="6.69894366208896" />
+      <entry key="S30" value="8.657866311938097" />
+      <entry key="S60" value="14.042527310155064" />
+      <entry key="M2" value="21.70094472360146" />
+      <entry key="M5" value="29.9760872938788" />
+      <entry key="M10" value="33.68357443658355" />
+      <entry key="M15" value="35.050049966755644" />
+      <entry key="M30" value="36.48761378103801" />
+      <entry key="H1" value="37.23421313046218" />
+      <entry key="H2" value="37.61467732332448" />
+      <entry key="H4" value="37.806727457497786" />
+      <entry key="D1" value="37.96770268759284" />
+      <entry key="W1" value="37.99538400680851" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.5177737590643274" />
+      <entry key="MS500" value="3.2789926112042056" />
+      <entry key="S2" value="5.48730168591183" />
+      <entry key="S5" value="6.3212012955491925" />
+      <entry key="S10" value="6.69464282729528" />
+      <entry key="S30" value="8.655767850083366" />
+      <entry key="S60" value="14.04085916092554" />
+      <entry key="M2" value="21.69971281463403" />
+      <entry key="M5" value="29.97542906955603" />
+      <entry key="M10" value="33.68320882576928" />
+      <entry key="M15" value="35.049797300614195" />
+      <entry key="M30" value="36.487482763894796" />
+      <entry key="H1" value="37.23414640761783" />
+      <entry key="H2" value="37.614643652767285" />
+      <entry key="H4" value="37.80671054422935" />
+      <entry key="D1" value="37.96769985782241" />
+      <entry key="W1" value="37.99538360228807" />
+    </decayedShown>
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "Develop"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>
