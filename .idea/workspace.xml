@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="initialize Next.js project with Tailwind CSS and ESLint configuration">
+      <change beforePath="$PROJECT_DIR$/Backend/test.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/AGENTS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/CLAUDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/eslint.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/next.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/postcss.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/file.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/globe.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/next.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/vercel.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/public/window.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/src/app/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/src/app/globals.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/src/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/src/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/erp/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/test.jsx" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Develop" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feat/install-next-laravel" />
+                    <option name="lastUsedInstant" value="1786963120" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="Develop" />
+                    <option name="lastUsedInstant" value="1786959733" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1786959732" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MohammedAAlsaeed/ERP.git",
+    "accountId": "0a069306-3e67-4012-a68d-0e55b9bb87b9"
+  }
+}]]></component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.5001769700777778" />
+      <entry key="MS500" value="2.7527628426768187" />
+      <entry key="S2" value="5.445895230690775" />
+      <entry key="S5" value="7.706293846411582" />
+      <entry key="S10" value="10.994547105051595" />
+      <entry key="S30" value="18.12203086326103" />
+      <entry key="S60" value="22.629140122536835" />
+      <entry key="M2" value="26.34889417726458" />
+      <entry key="M5" value="31.244283175161264" />
+      <entry key="M10" value="41.68973457361021" />
+      <entry key="M15" value="52.535842772723626" />
+      <entry key="M30" value="76.14178124806082" />
+      <entry key="H1" value="98.32701715415861" />
+      <entry key="H2" value="113.99528266152493" />
+      <entry key="H4" value="123.37890541901473" />
+      <entry key="D1" value="132.13641848635442" />
+      <entry key="W1" value="133.73138219745243" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="7.929123680120472E-214" />
+      <entry key="S5" value="8.272543806712241E-86" />
+      <entry key="S10" value="4.028790393949464E-43" />
+      <entry key="S30" value="1.1698686868614086E-14" />
+      <entry key="S60" value="1.529204077546406E-7" />
+      <entry key="M2" value="5.530469935772965E-4" />
+      <entry key="M5" value="0.07671226872571685" />
+      <entry key="M10" value="0.42390795050626917" />
+      <entry key="M15" value="0.7786672025208812" />
+      <entry key="M30" value="1.4867138485639444" />
+      <entry key="H1" value="2.0951198910481494" />
+      <entry key="H2" value="2.501751845309107" />
+      <entry key="H4" value="2.738080268863629" />
+      <entry key="D1" value="2.954441349654647" />
+      <entry key="W1" value="2.9934431825667334" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.466034051451277" />
+      <entry key="MS500" value="2.7396453601294675" />
+      <entry key="S2" value="5.4389198883928245" />
+      <entry key="S5" value="7.70228122041353" />
+      <entry key="S10" value="10.991103676651488" />
+      <entry key="S30" value="18.113058516736967" />
+      <entry key="S60" value="22.618839255539093" />
+      <entry key="M2" value="26.341406023573914" />
+      <entry key="M5" value="31.316227911069085" />
+      <entry key="M10" value="42.109863033254506" />
+      <entry key="M15" value="53.311178820147" />
+      <entry key="M30" value="77.62609486630271" />
+      <entry key="H1" value="100.42064435676119" />
+      <entry key="H2" value="116.49619432238111" />
+      <entry key="H4" value="126.1165388962089" />
+      <entry key="D1" value="135.0907813498507" />
+      <entry key="W1" value="136.7248140648799" />
+    </decayedShown>
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "feat/install-next-laravel",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="initialize Next.js project with Tailwind CSS and ESLint configuration">
+      <option name="closed" value="true" />
+      <created>1786960590913</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1786960590913</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initialize Next.js project with Tailwind CSS and ESLint configuration" />
+    <option name="LAST_COMMIT_MESSAGE" value="initialize Next.js project with Tailwind CSS and ESLint configuration" />
+  </component>
+</project>
