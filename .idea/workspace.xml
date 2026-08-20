@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="initialize Next.js project with Tailwind CSS and ESLint configuration">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/window.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/page.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="initialize Next.js project with Tailwind CSS and ESLint configuration" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,12 +32,20 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="feat/install-next-laravel" />
-                    <option name="lastUsedInstant" value="1786963120" />
+                    <option name="branchName" value="feat/initial-components-and-utilities" />
+                    <option name="lastUsedInstant" value="1787197865" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="Develop" />
-                    <option name="lastUsedInstant" value="1786959733" />
+                    <option name="lastUsedInstant" value="1787197800" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feat/update-config" />
+                    <option name="lastUsedInstant" value="1787048706" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feat/install-next-laravel" />
+                    <option name="lastUsedInstant" value="1786963120" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="main" />
@@ -142,7 +137,7 @@
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "Develop",
+    "git-widget-placeholder": "#3 on feat/initial-components-and-utilities",
     "node.js.selected.package.tslint": "(autodetect)",
     "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external"
   }
@@ -161,6 +156,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initialize Next.js project with Tailwind CSS and ESLint configuration" />
-    <option name="LAST_COMMIT_MESSAGE" value="initialize Next.js project with Tailwind CSS and ESLint configuration" />
+    <MESSAGE value="feat:Update workspace configuration and add PHP project settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:Update workspace configuration and add PHP project settings" />
   </component>
 </project>
