@@ -70,9 +70,10 @@ function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={isDark ? "التبديل إلى المظهر الفاتح" : "التبديل إلى المظهر الداكن"}
-      className="rounded-lg border border-line p-2 text-ink-2 hover:bg-page hover:text-ink"
+      aria-pressed={isDark}
+      className="inline-flex size-9 items-center justify-center rounded-lg border border-line bg-page/80 text-ink-2 shadow-sm transition-colors hover:bg-brand-soft hover:text-brand"
     >
-      {isDark ? <Sun size={16} /> : <Moon size={16} />}
+      {isDark ? <Sun size={16} strokeWidth={1.9} /> : <Moon size={16} strokeWidth={1.9} />}
     </button>
   );
 }
@@ -97,11 +98,11 @@ function LanguageToggle() {
       type="button"
       onClick={switchLocale}
       aria-label={`Switch language to ${nextLabel}`}
-      className="inline-flex items-center gap-2 rounded-lg border border-line bg-page/80 px-2.5 py-2 text-xs font-medium text-ink-2 transition-colors hover:bg-page hover:text-ink"
+      className="inline-flex items-center gap-2 rounded-lg border border-line bg-page/80 px-2.5 py-1.5 text-xs font-medium text-ink-2 shadow-sm transition-colors hover:bg-brand-soft hover:text-brand"
     >
-      <Languages size={15} />
+      <Languages size={15} strokeWidth={1.9} />
       <span className="hidden sm:inline">{activeLabel}</span>
-      <span className="rounded bg-brand-soft px-1.5 py-0.5 text-[10px] font-semibold text-brand">
+      <span className="rounded-md bg-brand-soft px-1.5 py-0.5 text-[10px] font-bold text-brand">
         {locale.toUpperCase()}
       </span>
     </button>
