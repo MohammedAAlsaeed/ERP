@@ -37,6 +37,8 @@ type ResourcePageProps<TRecord extends RowData, TValues extends FieldValues> = {
   schema: ZodType<TValues, FieldValues>;
   fields: FormField<TValues>[];
   defaultValues: DefaultValues<TValues>;
+  renderStats?: (data: TRecord[]) => React.ReactNode;
+  extraActions?: (data: TRecord[]) => React.ReactNode;
 };
 
 export function ResourcePage<
@@ -53,6 +55,8 @@ export function ResourcePage<
   schema,
   fields,
   defaultValues,
+  renderStats,
+  extraActions,
 }: ResourcePageProps<TRecord, TValues>) {
   const queryClient = useQueryClient();
   const [formOpen, setFormOpen] = useState(false);
@@ -91,16 +95,21 @@ export function ResourcePage<
   const data = (query.data ?? EMPTY) as unknown as TRecord[];
 
   return (
-    <>
+    <div className="flex flex-col gap-5">
+      {renderStats && !query.isPending && !query.isError ? renderStats(data) : null}
+
       <Card>
         <CardHeader
           title={title}
           subtitle={subtitle}
           action={
-            <Button onClick={() => setFormOpen(true)}>
-              <Plus size={15} aria-hidden />
-              {addLabel}
-            </Button>
+            <div className="flex items-center gap-2">
+              {extraActions ? extraActions(data) : null}
+              <Button onClick={() => setFormOpen(true)}>
+                <Plus size={15} aria-hidden />
+                {addLabel}
+              </Button>
+            </div>
           }
         />
 
@@ -130,6 +139,6 @@ export function ResourcePage<
           onCancel={() => setFormOpen(false)}
         />
       </Modal>
-    </>
+    </div>
   );
 }

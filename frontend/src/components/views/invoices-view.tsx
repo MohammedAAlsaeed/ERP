@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus } from "lucide-react";
+import { Download, Plus } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 
 import { columnHelperFor, DataTable, type ErpColumns } from "@/components/data-table";
@@ -18,8 +18,9 @@ import {
   listRecords,
   queryKeys,
 } from "@/lib/api";
+import { exportToCsv } from "@/lib/export";
 import { formatCurrency, formatDate, formatNumber } from "@/lib/format";
-import type { Invoice, InvoiceInput } from "@/lib/types";
+import { invoiceStatusLabels, type Invoice, type InvoiceInput } from "@/lib/types";
 
 const EMPTY: Invoice[] = [];
 const helper = columnHelperFor<Invoice>();
@@ -112,6 +113,31 @@ export function InvoicesView() {
     [customers.data],
   );
 
+  const handleExport = useCallback((data: Invoice[]) => {
+    if (data.length === 0) return;
+    const headers = [
+      "رقم الفاتورة",
+      "العميل",
+      "التاريخ",
+      "الاستحقاق",
+      "عدد البنود",
+      "الإجمالي",
+      "الحالة",
+    ];
+    const rows = data.map((inv) => [
+      inv.number,
+      inv.customerName,
+      inv.date,
+      inv.dueDate,
+      inv.items.length,
+      inv.total,
+      invoiceStatusLabels[inv.status] ?? inv.status,
+    ]);
+    exportToCsv("قائمة_الفواتير", headers, rows);
+  }, []);
+
+  const invoiceList = invoices.data ?? EMPTY;
+
   return (
     <>
       <Card>
@@ -119,10 +145,21 @@ export function InvoicesView() {
           title="الفواتير"
           subtitle="فواتير البيع وحالات التحصيل"
           action={
-            <Button onClick={() => setFormOpen(true)}>
-              <Plus size={15} aria-hidden />
-              فاتورة جديدة
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => handleExport(invoiceList)}
+                disabled={invoiceList.length === 0}
+              >
+                <Download size={15} aria-hidden />
+                تصدير CSV
+              </Button>
+              <Button onClick={() => setFormOpen(true)}>
+                <Plus size={15} aria-hidden />
+                فاتورة جديدة
+              </Button>
+            </div>
           }
         />
 

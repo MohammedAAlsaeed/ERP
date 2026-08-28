@@ -1,9 +1,14 @@
 "use client";
 
+import { Download } from "lucide-react";
+import { useCallback } from "react";
+
 import { columnHelperFor, type ErpColumns } from "@/components/data-table";
 import type { FormField } from "@/components/entity-form";
 import { ResourcePage } from "@/components/resource-page";
+import { Button } from "@/components/ui/button";
 import { DeleteButton } from "@/components/ui/delete-button";
+import { exportToCsv } from "@/lib/export";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { customerSchema, type Customer, type CustomerInput } from "@/lib/types";
 
@@ -52,6 +57,27 @@ const fields: FormField<CustomerInput>[] = [
 ];
 
 export function CustomersView() {
+  const handleExport = useCallback((data: Customer[]) => {
+    if (data.length === 0) return;
+    const headers = [
+      "الاسم",
+      "الهاتف",
+      "البريد الإلكتروني",
+      "المدينة",
+      "الرصيد",
+      "تاريخ الإضافة",
+    ];
+    const rows = data.map((c) => [
+      c.name,
+      c.phone,
+      c.email,
+      c.city,
+      c.balance,
+      c.createdAt,
+    ]);
+    exportToCsv("قائمة_العملاء", headers, rows);
+  }, []);
+
   return (
     <ResourcePage<Customer, CustomerInput>
       collection="customers"
@@ -63,6 +89,17 @@ export function CustomersView() {
       buildColumns={buildColumns}
       schema={customerSchema}
       fields={fields}
+      extraActions={(data) => (
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => handleExport(data)}
+          disabled={data.length === 0}
+        >
+          <Download size={15} aria-hidden />
+          تصدير CSV
+        </Button>
+      )}
       defaultValues={{ name: "", phone: "", email: "", city: "", balance: 0 }}
     />
   );

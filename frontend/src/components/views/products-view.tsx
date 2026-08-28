@@ -1,9 +1,14 @@
 "use client";
 
+import { Download } from "lucide-react";
+import { useCallback } from "react";
+
 import { columnHelperFor, type ErpColumns } from "@/components/data-table";
 import type { FormField } from "@/components/entity-form";
 import { ResourcePage } from "@/components/resource-page";
+import { Button } from "@/components/ui/button";
 import { DeleteButton } from "@/components/ui/delete-button";
+import { exportToCsv } from "@/lib/export";
 import { formatCurrency, formatNumber } from "@/lib/format";
 import { productSchema, type Product, type ProductInput } from "@/lib/types";
 
@@ -68,6 +73,29 @@ const fields: FormField<ProductInput>[] = [
 ];
 
 export function ProductsView() {
+  const handleExport = useCallback((data: Product[]) => {
+    if (data.length === 0) return;
+    const headers = [
+      "الرمز",
+      "المنتج",
+      "التصنيف",
+      "سعر التكلفة",
+      "سعر البيع",
+      "المخزون",
+      "حد إعادة الطلب",
+    ];
+    const rows = data.map((p) => [
+      p.sku,
+      p.name,
+      p.category,
+      p.cost,
+      p.price,
+      p.stock,
+      p.reorderLevel,
+    ]);
+    exportToCsv("قائمة_المنتجات", headers, rows);
+  }, []);
+
   return (
     <ResourcePage<Product, ProductInput>
       collection="products"
@@ -79,6 +107,17 @@ export function ProductsView() {
       buildColumns={buildColumns}
       schema={productSchema}
       fields={fields}
+      extraActions={(data) => (
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => handleExport(data)}
+          disabled={data.length === 0}
+        >
+          <Download size={15} aria-hidden />
+          تصدير CSV
+        </Button>
+      )}
       defaultValues={{
         sku: "",
         name: "",
