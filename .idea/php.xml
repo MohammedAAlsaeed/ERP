@@ -127,6 +127,7 @@
       <path value="$PROJECT_DIR$/Backend/vendor/fakerphp/faker" />
       <path value="$PROJECT_DIR$/Backend/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/Backend/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/Backend/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />

@@ -1,13 +1,49 @@
 "use client";
 
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Languages, Menu, Moon, Sun, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { localeMeta, type Locale } from "@/lib/i18n/config";
 import { navigation } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { useIsDark } from "@/lib/viz";
+
+const LOCALE_COOKIE = "erp-locale";
+
+function readStoredLocale(): Locale {
+  if (typeof window === "undefined") return "ar";
+
+  try {
+    const localValue = window.localStorage.getItem(LOCALE_COOKIE);
+    if (localValue === "en" || localValue === "ar") return localValue;
+  } catch {}
+
+  try {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((item) => item.startsWith(`${LOCALE_COOKIE}=`));
+    if (cookieValue) {
+      const value = cookieValue.split("=")[1];
+      if (value === "en" || value === "ar") return value as Locale;
+    }
+  } catch {}
+
+  return navigator.language?.toLowerCase().startsWith("en") ? "en" : "ar";
+}
+
+function applyLocale(locale: Locale) {
+  const { dir, htmlLang } = localeMeta[locale];
+  document.documentElement.lang = htmlLang;
+  document.documentElement.dir = dir;
+  document.documentElement.dataset.locale = locale;
+
+  try {
+    document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; SameSite=Lax`;
+    window.localStorage.setItem(LOCALE_COOKIE, locale);
+  } catch {}
+}
 
 function useCurrentPage() {
   const pathname = usePathname();
@@ -37,6 +73,37 @@ function ThemeToggle() {
       className="rounded-lg border border-line p-2 text-ink-2 hover:bg-page hover:text-ink"
     >
       {isDark ? <Sun size={16} /> : <Moon size={16} />}
+    </button>
+  );
+}
+
+function LanguageToggle() {
+  const [locale, setLocale] = useState<Locale>(() => readStoredLocale());
+
+  useEffect(() => {
+    applyLocale(locale);
+  }, [locale]);
+
+  const switchLocale = () => {
+    const next = locale === "ar" ? "en" : "ar";
+    setLocale(next);
+  };
+
+  const activeLabel = localeMeta[locale].label;
+  const nextLabel = localeMeta[locale === "ar" ? "en" : "ar"].englishLabel;
+
+  return (
+    <button
+      type="button"
+      onClick={switchLocale}
+      aria-label={`Switch language to ${nextLabel}`}
+      className="inline-flex items-center gap-2 rounded-lg border border-line bg-page/80 px-2.5 py-2 text-xs font-medium text-ink-2 transition-colors hover:bg-page hover:text-ink"
+    >
+      <Languages size={15} />
+      <span className="hidden sm:inline">{activeLabel}</span>
+      <span className="rounded bg-brand-soft px-1.5 py-0.5 text-[10px] font-semibold text-brand">
+        {locale.toUpperCase()}
+      </span>
     </button>
   );
 }
@@ -127,6 +194,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex items-center gap-3">
+            <LanguageToggle />
             <ThemeToggle />
             <div className="flex items-center gap-2">
               <span className="hidden text-xs text-ink-3 sm:block">مدير النظام</span>
