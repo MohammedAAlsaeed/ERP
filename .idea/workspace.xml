@@ -3,15 +3,15 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BackgroundAgentGlobalSettings">
+    <option name="selectedModelId" value="auto" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="feat:Update workspace configuration and add PHP project settings">
+    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="feat:Add CSV export functionality to customers, employees, invoices, products, and suppliers views">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/resource-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/resource-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/customers-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/customers-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/employees-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/employees-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/invoices-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/invoices-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/products-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/products-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/suppliers-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/suppliers-view.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/shell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/shell.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,24 +24,29 @@
       <executable />
     </execution>
   </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/Users/ma.alsaeed/PhpstormProjects/ERP" value="3IXjDc6gVQvrTKFoKJf7fsxwcYH" />
+    </persistenceIdMap>
+  </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="8750" />
+    <option name="cachedIndexableFilesCount" value="8888" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feat/initial-components-and-utilities" />
+        <entry key="$PROJECT_DIR$" value="Develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "MohammedAAlsaeed"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MohammedAAlsaeed&quot;
   }
-}]]></component>
+}</component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -50,6 +55,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feat/translate-lib" />
+                    <option name="lastUsedInstant" value="1787916637" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feat/initial-components-and-utilities" />
                     <option name="lastUsedInstant" value="1787197865" />
@@ -65,10 +74,6 @@
                   <RecentBranch>
                     <option name="branchName" value="feat/install-next-laravel" />
                     <option name="lastUsedInstant" value="1786963120" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1786959732" />
                   </RecentBranch>
                 </list>
               </option>
@@ -91,23 +96,23 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.089689714930229" />
-      <entry key="MS500" value="2.4087382780590505" />
-      <entry key="S2" value="6.219687790792926" />
-      <entry key="S5" value="11.698154274509506" />
-      <entry key="S10" value="17.818235056097837" />
-      <entry key="S30" value="26.60850183562852" />
-      <entry key="S60" value="29.96097458226031" />
-      <entry key="M2" value="31.885339340828164" />
-      <entry key="M5" value="33.12998183879088" />
-      <entry key="M10" value="33.560849758601194" />
-      <entry key="M15" value="33.70630414791141" />
-      <entry key="M30" value="33.85268534943103" />
-      <entry key="H1" value="33.926225576829765" />
-      <entry key="H2" value="33.96308346254176" />
-      <entry key="H4" value="33.982016985898014" />
-      <entry key="D1" value="63.820960577738916" />
-      <entry key="W1" value="231.7194403889562" />
+      <entry key="MS100" value="2.065114771014234" />
+      <entry key="MS500" value="4.238918921951186" />
+      <entry key="S2" value="7.794321836550364" />
+      <entry key="S5" value="11.583764521616791" />
+      <entry key="S10" value="18.00779190789998" />
+      <entry key="S30" value="39.32924232874715" />
+      <entry key="S60" value="56.727252455755156" />
+      <entry key="M2" value="75.47232784405254" />
+      <entry key="M5" value="98.81296647747529" />
+      <entry key="M10" value="111.35599609306472" />
+      <entry key="M15" value="116.37490267030452" />
+      <entry key="M30" value="121.90154644552972" />
+      <entry key="H1" value="124.8749700730187" />
+      <entry key="H2" value="126.41796314409528" />
+      <entry key="H4" value="127.20450284164578" />
+      <entry key="D1" value="157.61313959391913" />
+      <entry key="W1" value="325.62729077213817" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -118,34 +123,34 @@
       <entry key="S30" value="0.0" />
       <entry key="S60" value="0.0" />
       <entry key="M2" value="0.0" />
-      <entry key="M5" value="2.1753820238635974E-275" />
-      <entry key="M10" value="8.05158718006486E-138" />
-      <entry key="M15" value="6.429759378565936E-92" />
-      <entry key="M30" value="5.719356108429489E-46" />
-      <entry key="H1" value="5.716435372906181E-23" />
-      <entry key="H2" value="1.8398904353470822E-11" />
-      <entry key="H4" value="1.0489121818148614E-5" />
-      <entry key="D1" value="0.6583839545223287" />
-      <entry key="W1" value="4.375751988546821" />
+      <entry key="M5" value="1.027801819725606E-275" />
+      <entry key="M10" value="5.534372964102514E-138" />
+      <entry key="M15" value="5.0078656538668927E-92" />
+      <entry key="M30" value="5.047497501632892E-46" />
+      <entry key="H1" value="5.370191652661881E-23" />
+      <entry key="H2" value="1.7832991614448108E-11" />
+      <entry key="H4" value="1.0326549972802841E-5" />
+      <entry key="D1" value="0.6566721407458442" />
+      <entry key="W1" value="4.374124880546531" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.045914103753427" />
-      <entry key="MS500" value="2.3915342231209045" />
-      <entry key="S2" value="6.209609868370405" />
-      <entry key="S5" value="11.690369462051954" />
-      <entry key="S10" value="17.811782007464377" />
-      <entry key="S30" value="26.604964843652265" />
-      <entry key="S60" value="29.958927000085023" />
-      <entry key="M2" value="31.884234118760546" />
-      <entry key="M5" value="33.12951850023552" />
-      <entry key="M10" value="33.56061439557004" />
-      <entry key="M15" value="33.70614640674653" />
-      <entry key="M30" value="33.85260605966206" />
-      <entry key="H1" value="33.92618582659243" />
-      <entry key="H2" value="33.96306356103343" />
-      <entry key="H4" value="33.982017516593324" />
-      <entry key="D1" value="64.47933178395597" />
-      <entry key="W1" value="236.09518160083255" />
+      <entry key="MS100" value="2.019510699043579" />
+      <entry key="MS500" value="4.2180555205773285" />
+      <entry key="S2" value="7.784548140414863" />
+      <entry key="S5" value="11.577926555683373" />
+      <entry key="S10" value="18.003160026006334" />
+      <entry key="S30" value="39.32520223226387" />
+      <entry key="S60" value="56.722827105431726" />
+      <entry key="M2" value="75.46811825243846" />
+      <entry key="M5" value="98.81024468561829" />
+      <entry key="M10" value="111.35437220032365" />
+      <entry key="M15" value="116.37375219319325" />
+      <entry key="M30" value="121.90093453875097" />
+      <entry key="H1" value="124.87465440172002" />
+      <entry key="H2" value="126.41780280642467" />
+      <entry key="H4" value="127.20443236349259" />
+      <entry key="D1" value="158.26978711942" />
+      <entry key="W1" value="330.00140317837133" />
     </decayedShown>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/opt/homebrew/Cellar/php/8.5.2/bin/php">
@@ -260,13 +265,29 @@
       <path value="$PROJECT_DIR$/Backend/vendor/fakerphp/faker" />
       <path value="$PROJECT_DIR$/Backend/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/Backend/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/Backend/vendor/_laravel_idea" />
     </include_path>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3IXcsl9JLKDPY4wNDPkOAsYrvOR" />
+  <component name="ProjectSessionTemplates">
+    <option name="panelTemplate">
+      <template>
+        <option name="modeId" value="Agent" />
+        <option name="model">
+          <model>
+            <option name="modelType" value="builtin_id" />
+            <option name="modelValue" value="auto" />
+          </model>
+        </option>
+        <option name="targetType" value="BACKGROUND" />
+        <option name="worktreeMode" value="WORKSPACE" />
+      </template>
+    </option>
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
@@ -282,7 +303,8 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Develop",
+    "copilot.chat.legacySessionMetadata.migrated": "true",
+    "git-widget-placeholder": "feat/translate-lib",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -293,10 +315,6 @@
   }
 }]]></component>
   <component name="RunManager">
-    <configuration default="true" type="ComposerRunConfigurationType" factoryName="Composer Script">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/Backend/composer.json" />
-      <method v="2" />
-    </configuration>
     <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/Backend/phpunit.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
@@ -326,6 +344,7 @@
       <option name="presentableId" value="Default" />
       <updated>1787914563096</updated>
       <workItem from="1787914564124" duration="1033000" />
+      <workItem from="1787916613447" duration="1496000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />

@@ -27,6 +27,25 @@ try {
 } catch (error) {}
 `;
 
+const localeScript = `
+try {
+  var cookieValue = document.cookie
+    .split("; ")
+    .find(function (pair) { return pair.startsWith("erp-locale="); });
+  var locale = cookieValue ? cookieValue.split("=")[1] : null;
+  if (locale !== "en" && locale !== "ar") {
+    locale = navigator.language && navigator.language.toLowerCase().startsWith("en") ? "en" : "ar";
+  }
+  if (locale === "en") {
+    document.documentElement.lang = "en";
+    document.documentElement.dir = "ltr";
+  } else {
+    document.documentElement.lang = "ar";
+    document.documentElement.dir = "rtl";
+  }
+} catch (error) {}
+`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -37,6 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: localeScript }} />
       </head>
       <body className="min-h-full font-sans antialiased">
         <Providers>
