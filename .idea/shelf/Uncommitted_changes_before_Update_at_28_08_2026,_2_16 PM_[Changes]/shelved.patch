@@ -1,0 +1,949 @@
+Index: frontend/src/components/views/customers-view.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport { columnHelperFor, type ErpColumns } from \"@/components/data-table\";\nimport type { FormField } from \"@/components/entity-form\";\nimport { ResourcePage } from \"@/components/resource-page\";\nimport { DeleteButton } from \"@/components/ui/delete-button\";\nimport { formatCurrency, formatDate } from \"@/lib/format\";\nimport { customerSchema, type Customer, type CustomerInput } from \"@/lib/types\";\n\nconst helper = columnHelperFor<Customer>();\n\n// Module scope keeps the identity stable across renders, so the table's row\n// models are not rebuilt on every keystroke.\nconst buildColumns = (onDelete: (id: string) => void): ErpColumns<Customer> =>\n  helper.columns([\n    helper.accessor(\"name\", {\n      header: \"الاسم\",\n      cell: (info) => <span className=\"font-medium text-ink\">{info.getValue()}</span>,\n    }),\n    helper.accessor(\"phone\", {\n      header: \"الهاتف\",\n      cell: (info) => <span className=\"tabular\">{info.getValue()}</span>,\n    }),\n    helper.accessor(\"email\", { header: \"البريد الإلكتروني\" }),\n    helper.accessor(\"city\", { header: \"المدينة\" }),\n    helper.accessor(\"balance\", {\n      header: \"الرصيد\",\n      cell: (info) => <span className=\"tabular\">{formatCurrency(info.getValue())}</span>,\n    }),\n    helper.accessor(\"createdAt\", {\n      header: \"تاريخ الإضافة\",\n      cell: (info) => formatDate(info.getValue()),\n    }),\n    helper.display({\n      id: \"actions\",\n      header: \"\",\n      cell: (info) => (\n        <DeleteButton\n          label={`حذف ${info.row.original.name}`}\n          onClick={() => onDelete(info.row.original.id)}\n        />\n      ),\n    }),\n  ]);\n\nconst fields: FormField<CustomerInput>[] = [\n  { name: \"name\", label: \"اسم العميل\" },\n  { name: \"phone\", label: \"رقم الهاتف\", type: \"tel\" },\n  { name: \"email\", label: \"البريد الإلكتروني\", type: \"email\" },\n  { name: \"city\", label: \"المدينة\" },\n  { name: \"balance\", label: \"الرصيد الافتتاحي\", type: \"number\" },\n];\n\nexport function CustomersView() {\n  return (\n    <ResourcePage<Customer, CustomerInput>\n      collection=\"customers\"\n      title=\"العملاء\"\n      subtitle=\"بيانات العملاء وأرصدتهم الحالية\"\n      addLabel=\"إضافة عميل\"\n      emptyLabel=\"لا يوجد عملاء مطابقون للبحث\"\n      searchPlaceholder=\"ابحث بالاسم أو المدينة…\"\n      buildColumns={buildColumns}\n      schema={customerSchema}\n      fields={fields}\n      defaultValues={{ name: \"\", phone: \"\", email: \"\", city: \"\", balance: 0 }}\n    />\n  );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/components/views/customers-view.tsx b/frontend/src/components/views/customers-view.tsx
+--- a/frontend/src/components/views/customers-view.tsx	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/frontend/src/components/views/customers-view.tsx	(date 1787915412124)
+@@ -1,9 +1,14 @@
+ "use client";
+ 
++import { Download } from "lucide-react";
++import { useCallback } from "react";
++
+ import { columnHelperFor, type ErpColumns } from "@/components/data-table";
+ import type { FormField } from "@/components/entity-form";
+ import { ResourcePage } from "@/components/resource-page";
++import { Button } from "@/components/ui/button";
+ import { DeleteButton } from "@/components/ui/delete-button";
++import { exportToCsv } from "@/lib/export";
+ import { formatCurrency, formatDate } from "@/lib/format";
+ import { customerSchema, type Customer, type CustomerInput } from "@/lib/types";
+ 
+@@ -52,6 +57,27 @@
+ ];
+ 
+ export function CustomersView() {
++  const handleExport = useCallback((data: Customer[]) => {
++    if (data.length === 0) return;
++    const headers = [
++      "الاسم",
++      "الهاتف",
++      "البريد الإلكتروني",
++      "المدينة",
++      "الرصيد",
++      "تاريخ الإضافة",
++    ];
++    const rows = data.map((c) => [
++      c.name,
++      c.phone,
++      c.email,
++      c.city,
++      c.balance,
++      c.createdAt,
++    ]);
++    exportToCsv("قائمة_العملاء", headers, rows);
++  }, []);
++
+   return (
+     <ResourcePage<Customer, CustomerInput>
+       collection="customers"
+@@ -63,6 +89,17 @@
+       buildColumns={buildColumns}
+       schema={customerSchema}
+       fields={fields}
++      extraActions={(data) => (
++        <Button
++          type="button"
++          variant="secondary"
++          onClick={() => handleExport(data)}
++          disabled={data.length === 0}
++        >
++          <Download size={15} aria-hidden />
++          تصدير CSV
++        </Button>
++      )}
+       defaultValues={{ name: "", phone: "", email: "", city: "", balance: 0 }}
+     />
+   );
+Index: frontend/src/components/views/suppliers-view.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport { columnHelperFor, type ErpColumns } from \"@/components/data-table\";\nimport type { FormField } from \"@/components/entity-form\";\nimport { ResourcePage } from \"@/components/resource-page\";\nimport { DeleteButton } from \"@/components/ui/delete-button\";\nimport { formatCurrency } from \"@/lib/format\";\nimport { supplierSchema, type Supplier, type SupplierInput } from \"@/lib/types\";\n\nconst helper = columnHelperFor<Supplier>();\n\nconst buildColumns = (onDelete: (id: string) => void): ErpColumns<Supplier> =>\n  helper.columns([\n    helper.accessor(\"name\", {\n      header: \"المورد\",\n      cell: (info) => <span className=\"font-medium text-ink\">{info.getValue()}</span>,\n    }),\n    helper.accessor(\"category\", { header: \"التصنيف\" }),\n    helper.accessor(\"phone\", {\n      header: \"الهاتف\",\n      cell: (info) => <span className=\"tabular\">{info.getValue()}</span>,\n    }),\n    helper.accessor(\"city\", { header: \"المدينة\" }),\n    helper.accessor(\"balance\", {\n      header: \"المستحقات\",\n      cell: (info) => <span className=\"tabular\">{formatCurrency(info.getValue())}</span>,\n    }),\n    helper.display({\n      id: \"actions\",\n      header: \"\",\n      cell: (info) => (\n        <DeleteButton\n          label={`حذف ${info.row.original.name}`}\n          onClick={() => onDelete(info.row.original.id)}\n        />\n      ),\n    }),\n  ]);\n\nconst fields: FormField<SupplierInput>[] = [\n  { name: \"name\", label: \"اسم المورد\", wide: true },\n  { name: \"category\", label: \"التصنيف\" },\n  { name: \"phone\", label: \"رقم الهاتف\", type: \"tel\" },\n  { name: \"city\", label: \"المدينة\" },\n  { name: \"balance\", label: \"المستحقات الحالية\", type: \"number\" },\n];\n\nexport function SuppliersView() {\n  return (\n    <ResourcePage<Supplier, SupplierInput>\n      collection=\"suppliers\"\n      title=\"الموردون\"\n      subtitle=\"جهات التوريد والمستحقات المسجلة\"\n      addLabel=\"إضافة مورد\"\n      emptyLabel=\"لا يوجد موردون مطابقون للبحث\"\n      searchPlaceholder=\"ابحث بالاسم أو التصنيف…\"\n      buildColumns={buildColumns}\n      schema={supplierSchema}\n      fields={fields}\n      defaultValues={{ name: \"\", category: \"\", phone: \"\", city: \"\", balance: 0 }}\n    />\n  );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/components/views/suppliers-view.tsx b/frontend/src/components/views/suppliers-view.tsx
+--- a/frontend/src/components/views/suppliers-view.tsx	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/frontend/src/components/views/suppliers-view.tsx	(date 1787915426341)
+@@ -1,9 +1,14 @@
+ "use client";
+ 
++import { Download } from "lucide-react";
++import { useCallback } from "react";
++
+ import { columnHelperFor, type ErpColumns } from "@/components/data-table";
+ import type { FormField } from "@/components/entity-form";
+ import { ResourcePage } from "@/components/resource-page";
++import { Button } from "@/components/ui/button";
+ import { DeleteButton } from "@/components/ui/delete-button";
++import { exportToCsv } from "@/lib/export";
+ import { formatCurrency } from "@/lib/format";
+ import { supplierSchema, type Supplier, type SupplierInput } from "@/lib/types";
+ 
+@@ -46,6 +51,19 @@
+ ];
+ 
+ export function SuppliersView() {
++  const handleExport = useCallback((data: Supplier[]) => {
++    if (data.length === 0) return;
++    const headers = ["المورد", "التصنيف", "الهاتف", "المدينة", "المستحقات"];
++    const rows = data.map((s) => [
++      s.name,
++      s.category,
++      s.phone,
++      s.city,
++      s.balance,
++    ]);
++    exportToCsv("قائمة_الموردين", headers, rows);
++  }, []);
++
+   return (
+     <ResourcePage<Supplier, SupplierInput>
+       collection="suppliers"
+@@ -57,6 +75,17 @@
+       buildColumns={buildColumns}
+       schema={supplierSchema}
+       fields={fields}
++      extraActions={(data) => (
++        <Button
++          type="button"
++          variant="secondary"
++          onClick={() => handleExport(data)}
++          disabled={data.length === 0}
++        >
++          <Download size={15} aria-hidden />
++          تصدير CSV
++        </Button>
++      )}
+       defaultValues={{ name: "", category: "", phone: "", city: "", balance: 0 }}
+     />
+   );
+Index: .idea/laravel-idea.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"LaravelIdeaMainSettings\">\n    <option name=\"frameworkFound\" value=\"true\" />\n    <option name=\"laravelBasePath\" value=\"Backend\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/laravel-idea.xml b/.idea/laravel-idea.xml
+--- a/.idea/laravel-idea.xml	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/.idea/laravel-idea.xml	(date 1787915599005)
+@@ -1,7 +1,23 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="InertiaPackage">
++    <option name="directoryPaths">
++      <list />
++    </option>
++  </component>
+   <component name="LaravelIdeaMainSettings">
++    <option name="codeGeneration">
++      <LaravelCodeGeneration>
++        <option name="generationStringSettings">
++          <map>
++            <entry key="createEloquentScope:namespace" value="Models\Scopes" />
++            <entry key="createModel:namespace" value="Models" />
++          </map>
++        </option>
++      </LaravelCodeGeneration>
++    </option>
+     <option name="frameworkFound" value="true" />
+     <option name="laravelBasePath" value="Backend" />
++    <option name="userClassName" value="\App\Models\User" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: frontend/src/components/views/employees-view.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport { columnHelperFor, type ErpColumns } from \"@/components/data-table\";\nimport type { FormField } from \"@/components/entity-form\";\nimport { ResourcePage } from \"@/components/resource-page\";\nimport { EmployeeStatusBadge } from \"@/components/ui/badge\";\nimport { DeleteButton } from \"@/components/ui/delete-button\";\nimport { formatCurrency, formatDate } from \"@/lib/format\";\nimport {\n  employeeSchema,\n  employeeStatusLabels,\n  type Employee,\n  type EmployeeInput,\n} from \"@/lib/types\";\n\nconst helper = columnHelperFor<Employee>();\n\nconst buildColumns = (onDelete: (id: string) => void): ErpColumns<Employee> =>\n  helper.columns([\n    helper.accessor(\"name\", {\n      header: \"الاسم\",\n      cell: (info) => <span className=\"font-medium text-ink\">{info.getValue()}</span>,\n    }),\n    helper.accessor(\"position\", { header: \"المسمى الوظيفي\" }),\n    helper.accessor(\"department\", { header: \"الإدارة\" }),\n    helper.accessor(\"salary\", {\n      header: \"الراتب\",\n      cell: (info) => <span className=\"tabular\">{formatCurrency(info.getValue())}</span>,\n    }),\n    helper.accessor(\"hireDate\", {\n      header: \"تاريخ التعيين\",\n      cell: (info) => formatDate(info.getValue()),\n    }),\n    helper.accessor(\"status\", {\n      header: \"الحالة\",\n      cell: (info) => <EmployeeStatusBadge status={info.getValue()} />,\n    }),\n    helper.display({\n      id: \"actions\",\n      header: \"\",\n      cell: (info) => (\n        <DeleteButton\n          label={`حذف ${info.row.original.name}`}\n          onClick={() => onDelete(info.row.original.id)}\n        />\n      ),\n    }),\n  ]);\n\nconst fields: FormField<EmployeeInput>[] = [\n  { name: \"name\", label: \"اسم الموظف\", wide: true },\n  { name: \"position\", label: \"المسمى الوظيفي\" },\n  { name: \"department\", label: \"الإدارة\" },\n  { name: \"salary\", label: \"الراتب الشهري\", type: \"number\" },\n  { name: \"hireDate\", label: \"تاريخ التعيين\", type: \"date\" },\n  {\n    name: \"status\",\n    label: \"الحالة\",\n    options: Object.entries(employeeStatusLabels).map(([value, label]) => ({\n      value,\n      label,\n    })),\n  },\n];\n\nexport function EmployeesView() {\n  return (\n    <ResourcePage<Employee, EmployeeInput>\n      collection=\"employees\"\n      title=\"الموظفون\"\n      subtitle=\"بيانات الكادر الوظيفي والرواتب\"\n      addLabel=\"إضافة موظف\"\n      emptyLabel=\"لا يوجد موظفون مطابقون للبحث\"\n      searchPlaceholder=\"ابحث بالاسم أو الإدارة…\"\n      buildColumns={buildColumns}\n      schema={employeeSchema}\n      fields={fields}\n      defaultValues={{\n        name: \"\",\n        position: \"\",\n        department: \"\",\n        salary: 0,\n        hireDate: \"\",\n        status: \"active\",\n      }}\n    />\n  );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/components/views/employees-view.tsx b/frontend/src/components/views/employees-view.tsx
+--- a/frontend/src/components/views/employees-view.tsx	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/frontend/src/components/views/employees-view.tsx	(date 1787915339479)
+@@ -1,11 +1,17 @@
+ "use client";
+ 
++import { Banknote, Download, UserCheck, Users, Wallet } from "lucide-react";
++import { useCallback } from "react";
++
+ import { columnHelperFor, type ErpColumns } from "@/components/data-table";
+ import type { FormField } from "@/components/entity-form";
+ import { ResourcePage } from "@/components/resource-page";
++import { StatTile } from "@/components/stat-tile";
+ import { EmployeeStatusBadge } from "@/components/ui/badge";
++import { Button } from "@/components/ui/button";
+ import { DeleteButton } from "@/components/ui/delete-button";
+-import { formatCurrency, formatDate } from "@/lib/format";
++import { exportToCsv } from "@/lib/export";
++import { formatCurrency, formatDate, formatNumber } from "@/lib/format";
+ import {
+   employeeSchema,
+   employeeStatusLabels,
+@@ -21,11 +27,25 @@
+       header: "الاسم",
+       cell: (info) => <span className="font-medium text-ink">{info.getValue()}</span>,
+     }),
+-    helper.accessor("position", { header: "المسمى الوظيفي" }),
+-    helper.accessor("department", { header: "الإدارة" }),
++    helper.accessor("position", {
++      header: "المسمى الوظيفي",
++      cell: (info) => <span className="text-ink-2">{info.getValue()}</span>,
++    }),
++    helper.accessor("department", {
++      header: "الإدارة",
++      cell: (info) => (
++        <span className="inline-flex items-center rounded-md border border-line bg-page px-2 py-0.5 text-xs font-medium text-ink-2">
++          {info.getValue()}
++        </span>
++      ),
++    }),
+     helper.accessor("salary", {
+       header: "الراتب",
+-      cell: (info) => <span className="tabular">{formatCurrency(info.getValue())}</span>,
++      cell: (info) => (
++        <span className="tabular font-medium text-ink">
++          {formatCurrency(info.getValue())}
++        </span>
++      ),
+     }),
+     helper.accessor("hireDate", {
+       header: "تاريخ التعيين",
+@@ -64,6 +84,75 @@
+ ];
+ 
+ export function EmployeesView() {
++  const handleExport = useCallback((data: Employee[]) => {
++    if (data.length === 0) return;
++    const headers = [
++      "الاسم",
++      "المسمى الوظيفي",
++      "الإدارة",
++      "الراتب الشهري",
++      "تاريخ التعيين",
++      "الحالة",
++    ];
++    const rows = data.map((emp) => [
++      emp.name,
++      emp.position,
++      emp.department,
++      emp.salary,
++      emp.hireDate,
++      employeeStatusLabels[emp.status] ?? emp.status,
++    ]);
++    exportToCsv("قائمة_الموظفين", headers, rows);
++  }, []);
++
++  const renderStats = useCallback((data: Employee[]) => {
++    const total = data.length;
++    const active = data.filter((e) => e.status === "active").length;
++    const onLeave = data.filter((e) => e.status === "onLeave").length;
++    const activeEmployees = data.filter((e) => e.status === "active");
++    const totalPayroll = activeEmployees.reduce((sum, e) => sum + e.salary, 0);
++    const avgSalary =
++      activeEmployees.length > 0
++        ? Math.round(totalPayroll / activeEmployees.length)
++        : 0;
++    const departmentsCount = new Set(
++      data.map((e) => e.department).filter(Boolean),
++    ).size;
++
++    return (
++      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
++        <StatTile
++          label="إجمالي الكادر"
++          value={`${formatNumber(total)} موظف`}
++          note={`موزعون على ${formatNumber(departmentsCount)} إدارات`}
++          icon={Users}
++        />
++        <StatTile
++          label="على رأس العمل"
++          value={`${formatNumber(active)} موظف`}
++          note={
++            onLeave > 0
++              ? `${formatNumber(onLeave)} موظف في إجازة حالياً`
++              : "جميع الموظفين على رأس العمل"
++          }
++          icon={UserCheck}
++        />
++        <StatTile
++          label="مسير الرواتب الشهري"
++          value={formatCurrency(totalPayroll)}
++          note="إجمالي رواتب الكادر النشط"
++          icon={Wallet}
++        />
++        <StatTile
++          label="متوسط الراتب"
++          value={formatCurrency(avgSalary)}
++          note="متوسط الأجر الشهري للموظف"
++          icon={Banknote}
++        />
++      </div>
++    );
++  }, []);
++
+   return (
+     <ResourcePage<Employee, EmployeeInput>
+       collection="employees"
+@@ -75,6 +164,18 @@
+       buildColumns={buildColumns}
+       schema={employeeSchema}
+       fields={fields}
++      renderStats={renderStats}
++      extraActions={(data) => (
++        <Button
++          type="button"
++          variant="secondary"
++          onClick={() => handleExport(data)}
++          disabled={data.length === 0}
++        >
++          <Download size={15} aria-hidden />
++          تصدير CSV
++        </Button>
++      )}
+       defaultValues={{
+         name: "",
+         position: "",
+Index: frontend/src/components/views/products-view.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport { columnHelperFor, type ErpColumns } from \"@/components/data-table\";\nimport type { FormField } from \"@/components/entity-form\";\nimport { ResourcePage } from \"@/components/resource-page\";\nimport { DeleteButton } from \"@/components/ui/delete-button\";\nimport { formatCurrency, formatNumber } from \"@/lib/format\";\nimport { productSchema, type Product, type ProductInput } from \"@/lib/types\";\n\nconst helper = columnHelperFor<Product>();\n\nconst buildColumns = (onDelete: (id: string) => void): ErpColumns<Product> =>\n  helper.columns([\n    helper.accessor(\"sku\", {\n      header: \"الرمز\",\n      cell: (info) => <span className=\"tabular text-ink-3\">{info.getValue()}</span>,\n    }),\n    helper.accessor(\"name\", {\n      header: \"المنتج\",\n      cell: (info) => <span className=\"font-medium text-ink\">{info.getValue()}</span>,\n    }),\n    helper.accessor(\"category\", { header: \"التصنيف\" }),\n    helper.accessor(\"cost\", {\n      header: \"التكلفة\",\n      cell: (info) => <span className=\"tabular\">{formatCurrency(info.getValue())}</span>,\n    }),\n    helper.accessor(\"price\", {\n      header: \"سعر البيع\",\n      cell: (info) => <span className=\"tabular\">{formatCurrency(info.getValue())}</span>,\n    }),\n    helper.accessor(\"stock\", {\n      header: \"المخزون\",\n      cell: (info) => {\n        const { stock, reorderLevel } = info.row.original;\n        const low = stock <= reorderLevel;\n\n        return (\n          <span\n            className={`tabular ${low ? \"font-medium text-critical\" : \"\"}`}\n            title={low ? \"وصل حد إعادة الطلب\" : undefined}\n          >\n            {formatNumber(stock)}\n            {low ? \" ⚠\uFE0E\" : \"\"}\n          </span>\n        );\n      },\n    }),\n    helper.display({\n      id: \"actions\",\n      header: \"\",\n      cell: (info) => (\n        <DeleteButton\n          label={`حذف ${info.row.original.name}`}\n          onClick={() => onDelete(info.row.original.id)}\n        />\n      ),\n    }),\n  ]);\n\nconst fields: FormField<ProductInput>[] = [\n  { name: \"name\", label: \"اسم المنتج\", wide: true },\n  { name: \"sku\", label: \"رمز المنتج (SKU)\" },\n  { name: \"category\", label: \"التصنيف\" },\n  { name: \"cost\", label: \"سعر التكلفة\", type: \"number\" },\n  { name: \"price\", label: \"سعر البيع\", type: \"number\" },\n  { name: \"stock\", label: \"الكمية المتوفرة\", type: \"number\" },\n  { name: \"reorderLevel\", label: \"حد إعادة الطلب\", type: \"number\" },\n];\n\nexport function ProductsView() {\n  return (\n    <ResourcePage<Product, ProductInput>\n      collection=\"products\"\n      title=\"المنتجات والمخزون\"\n      subtitle=\"الأصناف والأسعار والكميات المتوفرة\"\n      addLabel=\"إضافة منتج\"\n      emptyLabel=\"لا توجد منتجات مطابقة للبحث\"\n      searchPlaceholder=\"ابحث بالاسم أو الرمز…\"\n      buildColumns={buildColumns}\n      schema={productSchema}\n      fields={fields}\n      defaultValues={{\n        sku: \"\",\n        name: \"\",\n        category: \"\",\n        cost: 0,\n        price: 0,\n        stock: 0,\n        reorderLevel: 20,\n      }}\n    />\n  );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/components/views/products-view.tsx b/frontend/src/components/views/products-view.tsx
+--- a/frontend/src/components/views/products-view.tsx	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/frontend/src/components/views/products-view.tsx	(date 1787915441618)
+@@ -1,9 +1,14 @@
+ "use client";
+ 
++import { Download } from "lucide-react";
++import { useCallback } from "react";
++
+ import { columnHelperFor, type ErpColumns } from "@/components/data-table";
+ import type { FormField } from "@/components/entity-form";
+ import { ResourcePage } from "@/components/resource-page";
++import { Button } from "@/components/ui/button";
+ import { DeleteButton } from "@/components/ui/delete-button";
++import { exportToCsv } from "@/lib/export";
+ import { formatCurrency, formatNumber } from "@/lib/format";
+ import { productSchema, type Product, type ProductInput } from "@/lib/types";
+ 
+@@ -68,6 +73,29 @@
+ ];
+ 
+ export function ProductsView() {
++  const handleExport = useCallback((data: Product[]) => {
++    if (data.length === 0) return;
++    const headers = [
++      "الرمز",
++      "المنتج",
++      "التصنيف",
++      "سعر التكلفة",
++      "سعر البيع",
++      "المخزون",
++      "حد إعادة الطلب",
++    ];
++    const rows = data.map((p) => [
++      p.sku,
++      p.name,
++      p.category,
++      p.cost,
++      p.price,
++      p.stock,
++      p.reorderLevel,
++    ]);
++    exportToCsv("قائمة_المنتجات", headers, rows);
++  }, []);
++
+   return (
+     <ResourcePage<Product, ProductInput>
+       collection="products"
+@@ -79,6 +107,17 @@
+       buildColumns={buildColumns}
+       schema={productSchema}
+       fields={fields}
++      extraActions={(data) => (
++        <Button
++          type="button"
++          variant="secondary"
++          onClick={() => handleExport(data)}
++          disabled={data.length === 0}
++        >
++          <Download size={15} aria-hidden />
++          تصدير CSV
++        </Button>
++      )}
+       defaultValues={{
+         sku: "",
+         name: "",
+Index: frontend/src/components/views/invoices-view.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport { Plus } from \"lucide-react\";\nimport { useCallback, useMemo, useState } from \"react\";\n\nimport { columnHelperFor, DataTable, type ErpColumns } from \"@/components/data-table\";\nimport { InvoiceForm } from \"@/components/forms/invoice-form\";\nimport { InvoiceStatusBadge } from \"@/components/ui/badge\";\nimport { Button } from \"@/components/ui/button\";\nimport { Card, CardHeader } from \"@/components/ui/card\";\nimport { DeleteButton } from \"@/components/ui/delete-button\";\nimport { Modal } from \"@/components/ui/modal\";\nimport { ErrorState, Loading } from \"@/components/ui/states\";\nimport {\n  createRecord,\n  deleteRecord,\n  listRecords,\n  queryKeys,\n} from \"@/lib/api\";\nimport { formatCurrency, formatDate, formatNumber } from \"@/lib/format\";\nimport type { Invoice, InvoiceInput } from \"@/lib/types\";\n\nconst EMPTY: Invoice[] = [];\nconst helper = columnHelperFor<Invoice>();\n\nconst buildColumns = (onDelete: (id: string) => void): ErpColumns<Invoice> =>\n  helper.columns([\n    helper.accessor(\"number\", {\n      header: \"رقم الفاتورة\",\n      cell: (info) => (\n        <span className=\"tabular font-medium text-ink\">{info.getValue()}</span>\n      ),\n    }),\n    helper.accessor(\"customerName\", { header: \"العميل\" }),\n    helper.accessor(\"date\", {\n      header: \"التاريخ\",\n      cell: (info) => formatDate(info.getValue()),\n    }),\n    helper.accessor(\"dueDate\", {\n      header: \"الاستحقاق\",\n      cell: (info) => formatDate(info.getValue()),\n    }),\n    helper.accessor((row) => row.items.length, {\n      id: \"itemCount\",\n      header: \"البنود\",\n      cell: (info) => <span className=\"tabular\">{formatNumber(info.getValue())}</span>,\n    }),\n    helper.accessor(\"total\", {\n      header: \"الإجمالي\",\n      cell: (info) => <span className=\"tabular\">{formatCurrency(info.getValue())}</span>,\n    }),\n    helper.accessor(\"status\", {\n      header: \"الحالة\",\n      cell: (info) => <InvoiceStatusBadge status={info.getValue()} />,\n    }),\n    helper.display({\n      id: \"actions\",\n      header: \"\",\n      cell: (info) => (\n        <DeleteButton\n          label={`حذف الفاتورة ${info.row.original.number}`}\n          onClick={() => onDelete(info.row.original.id)}\n        />\n      ),\n    }),\n  ]);\n\nexport function InvoicesView() {\n  const queryClient = useQueryClient();\n  const [formOpen, setFormOpen] = useState(false);\n\n  const invoices = useQuery({\n    queryKey: queryKeys.list(\"invoices\"),\n    queryFn: () => listRecords(\"invoices\"),\n  });\n\n  // Fills the customer picker in the form.\n  const customers = useQuery({\n    queryKey: queryKeys.list(\"customers\"),\n    queryFn: () => listRecords(\"customers\"),\n  });\n\n  const invalidate = useCallback(() => {\n    queryClient.invalidateQueries({ queryKey: queryKeys.list(\"invoices\") });\n    queryClient.invalidateQueries({ queryKey: queryKeys.stats });\n  }, [queryClient]);\n\n  const create = useMutation({\n    mutationFn: (values: InvoiceInput) => createRecord(\"invoices\", values),\n    onSuccess: () => {\n      invalidate();\n      setFormOpen(false);\n    },\n  });\n\n  const destroy = useMutation({\n    mutationFn: (id: string) => deleteRecord(\"invoices\", id),\n    onSuccess: invalidate,\n  });\n\n  const onDelete = useCallback(\n    (id: string) => {\n      if (window.confirm(\"هل تريد حذف هذه الفاتورة؟\")) destroy.mutate(id);\n    },\n    [destroy],\n  );\n\n  const columns = useMemo(() => buildColumns(onDelete), [onDelete]);\n  const customerOptions = useMemo(\n    () => (customers.data ?? []).map(({ id, name }) => ({ id, name })),\n    [customers.data],\n  );\n\n  return (\n    <>\n      <Card>\n        <CardHeader\n          title=\"الفواتير\"\n          subtitle=\"فواتير البيع وحالات التحصيل\"\n          action={\n            <Button onClick={() => setFormOpen(true)}>\n              <Plus size={15} aria-hidden />\n              فاتورة جديدة\n            </Button>\n          }\n        />\n\n        {invoices.isPending ? (\n          <Loading />\n        ) : invoices.isError ? (\n          <ErrorState message={invoices.error.message} />\n        ) : (\n          <DataTable\n            data={invoices.data ?? EMPTY}\n            columns={columns}\n            emptyLabel=\"لا توجد فواتير مطابقة للبحث\"\n            searchPlaceholder=\"ابحث برقم الفاتورة أو العميل…\"\n          />\n        )}\n      </Card>\n\n      <Modal title=\"فاتورة جديدة\" open={formOpen} onClose={() => setFormOpen(false)}>\n        {/* Remounted per open so the line items reset with a fresh form. */}\n        <InvoiceForm\n          key={formOpen ? \"open\" : \"closed\"}\n          customers={customerOptions}\n          pending={create.isPending}\n          error={create.isError ? create.error.message : undefined}\n          onSubmit={(values) => create.mutate(values)}\n          onCancel={() => setFormOpen(false)}\n        />\n      </Modal>\n    </>\n  );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/components/views/invoices-view.tsx b/frontend/src/components/views/invoices-view.tsx
+--- a/frontend/src/components/views/invoices-view.tsx	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/frontend/src/components/views/invoices-view.tsx	(date 1787915465099)
+@@ -1,7 +1,7 @@
+ "use client";
+ 
+ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+-import { Plus } from "lucide-react";
++import { Download, Plus } from "lucide-react";
+ import { useCallback, useMemo, useState } from "react";
+ 
+ import { columnHelperFor, DataTable, type ErpColumns } from "@/components/data-table";
+@@ -18,8 +18,9 @@
+   listRecords,
+   queryKeys,
+ } from "@/lib/api";
++import { exportToCsv } from "@/lib/export";
+ import { formatCurrency, formatDate, formatNumber } from "@/lib/format";
+-import type { Invoice, InvoiceInput } from "@/lib/types";
++import { invoiceStatusLabels, type Invoice, type InvoiceInput } from "@/lib/types";
+ 
+ const EMPTY: Invoice[] = [];
+ const helper = columnHelperFor<Invoice>();
+@@ -112,6 +113,31 @@
+     [customers.data],
+   );
+ 
++  const handleExport = useCallback((data: Invoice[]) => {
++    if (data.length === 0) return;
++    const headers = [
++      "رقم الفاتورة",
++      "العميل",
++      "التاريخ",
++      "الاستحقاق",
++      "عدد البنود",
++      "الإجمالي",
++      "الحالة",
++    ];
++    const rows = data.map((inv) => [
++      inv.number,
++      inv.customerName,
++      inv.date,
++      inv.dueDate,
++      inv.items.length,
++      inv.total,
++      invoiceStatusLabels[inv.status] ?? inv.status,
++    ]);
++    exportToCsv("قائمة_الفواتير", headers, rows);
++  }, []);
++
++  const invoiceList = invoices.data ?? EMPTY;
++
+   return (
+     <>
+       <Card>
+@@ -119,10 +145,21 @@
+           title="الفواتير"
+           subtitle="فواتير البيع وحالات التحصيل"
+           action={
+-            <Button onClick={() => setFormOpen(true)}>
+-              <Plus size={15} aria-hidden />
+-              فاتورة جديدة
+-            </Button>
++            <div className="flex items-center gap-2">
++              <Button
++                type="button"
++                variant="secondary"
++                onClick={() => handleExport(invoiceList)}
++                disabled={invoiceList.length === 0}
++              >
++                <Download size={15} aria-hidden />
++                تصدير CSV
++              </Button>
++              <Button onClick={() => setFormOpen(true)}>
++                <Plus size={15} aria-hidden />
++                فاتورة جديدة
++              </Button>
++            </div>
+           }
+         />
+ 
+Index: frontend/src/components/resource-page.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport { useMutation, useQuery, useQueryClient } from \"@tanstack/react-query\";\nimport { Plus } from \"lucide-react\";\nimport { useCallback, useMemo, useState } from \"react\";\nimport type { RowData } from \"@tanstack/react-table\";\nimport type { DefaultValues, FieldValues } from \"react-hook-form\";\nimport type { ZodType } from \"zod\";\n\nimport { DataTable, type ErpColumns } from \"@/components/data-table\";\nimport { EntityForm, type FormField } from \"@/components/entity-form\";\nimport { Button } from \"@/components/ui/button\";\nimport { Card, CardHeader } from \"@/components/ui/card\";\nimport { Modal } from \"@/components/ui/modal\";\nimport { ErrorState, Loading } from \"@/components/ui/states\";\nimport {\n  createRecord,\n  deleteRecord,\n  listRecords,\n  queryKeys,\n  type Collection,\n} from \"@/lib/api\";\n\n/* Stable fallback: a fresh [] every render would invalidate the table's\n   row models (see the react-table v9 data guidance). */\nconst EMPTY: never[] = [];\n\ntype ResourcePageProps<TRecord extends RowData, TValues extends FieldValues> = {\n  collection: Collection;\n  title: string;\n  subtitle: string;\n  addLabel: string;\n  emptyLabel: string;\n  searchPlaceholder: string;\n  /** Defined at module scope by each page so its identity stays stable. */\n  buildColumns: (onDelete: (id: string) => void) => ErpColumns<TRecord>;\n  schema: ZodType<TValues, FieldValues>;\n  fields: FormField<TValues>[];\n  defaultValues: DefaultValues<TValues>;\n};\n\nexport function ResourcePage<\n  TRecord extends RowData & { id: string },\n  TValues extends FieldValues,\n>({\n  collection,\n  title,\n  subtitle,\n  addLabel,\n  emptyLabel,\n  searchPlaceholder,\n  buildColumns,\n  schema,\n  fields,\n  defaultValues,\n}: ResourcePageProps<TRecord, TValues>) {\n  const queryClient = useQueryClient();\n  const [formOpen, setFormOpen] = useState(false);\n\n  const query = useQuery({\n    queryKey: queryKeys.list(collection),\n    queryFn: () => listRecords(collection),\n  });\n\n  const invalidate = useCallback(() => {\n    queryClient.invalidateQueries({ queryKey: queryKeys.list(collection) });\n    queryClient.invalidateQueries({ queryKey: queryKeys.stats });\n  }, [collection, queryClient]);\n\n  const create = useMutation({\n    mutationFn: (values: TValues) => createRecord(collection, values),\n    onSuccess: () => {\n      invalidate();\n      setFormOpen(false);\n    },\n  });\n\n  const destroy = useMutation({\n    mutationFn: (id: string) => deleteRecord(collection, id),\n    onSuccess: invalidate,\n  });\n\n  const onDelete = useCallback(\n    (id: string) => {\n      if (window.confirm(\"هل تريد حذف هذا السجل؟\")) destroy.mutate(id);\n    },\n    [destroy],\n  );\n\n  const columns = useMemo(() => buildColumns(onDelete), [buildColumns, onDelete]);\n  const data = (query.data ?? EMPTY) as unknown as TRecord[];\n\n  return (\n    <>\n      <Card>\n        <CardHeader\n          title={title}\n          subtitle={subtitle}\n          action={\n            <Button onClick={() => setFormOpen(true)}>\n              <Plus size={15} aria-hidden />\n              {addLabel}\n            </Button>\n          }\n        />\n\n        {query.isPending ? (\n          <Loading />\n        ) : query.isError ? (\n          <ErrorState message={query.error.message} />\n        ) : (\n          <DataTable\n            data={data}\n            columns={columns}\n            emptyLabel={emptyLabel}\n            searchPlaceholder={searchPlaceholder}\n          />\n        )}\n      </Card>\n\n      <Modal title={addLabel} open={formOpen} onClose={() => setFormOpen(false)}>\n        <EntityForm<TValues>\n          schema={schema}\n          fields={fields}\n          defaultValues={defaultValues}\n          submitLabel=\"حفظ\"\n          pending={create.isPending}\n          error={create.isError ? create.error.message : undefined}\n          onSubmit={(values) => create.mutate(values)}\n          onCancel={() => setFormOpen(false)}\n        />\n      </Modal>\n    </>\n  );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/components/resource-page.tsx b/frontend/src/components/resource-page.tsx
+--- a/frontend/src/components/resource-page.tsx	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/frontend/src/components/resource-page.tsx	(date 1787915368212)
+@@ -37,6 +37,8 @@
+   schema: ZodType<TValues, FieldValues>;
+   fields: FormField<TValues>[];
+   defaultValues: DefaultValues<TValues>;
++  renderStats?: (data: TRecord[]) => React.ReactNode;
++  extraActions?: (data: TRecord[]) => React.ReactNode;
+ };
+ 
+ export function ResourcePage<
+@@ -53,6 +55,8 @@
+   schema,
+   fields,
+   defaultValues,
++  renderStats,
++  extraActions,
+ }: ResourcePageProps<TRecord, TValues>) {
+   const queryClient = useQueryClient();
+   const [formOpen, setFormOpen] = useState(false);
+@@ -91,16 +95,21 @@
+   const data = (query.data ?? EMPTY) as unknown as TRecord[];
+ 
+   return (
+-    <>
++    <div className="flex flex-col gap-5">
++      {renderStats && !query.isPending && !query.isError ? renderStats(data) : null}
++
+       <Card>
+         <CardHeader
+           title={title}
+           subtitle={subtitle}
+           action={
+-            <Button onClick={() => setFormOpen(true)}>
+-              <Plus size={15} aria-hidden />
+-              {addLabel}
+-            </Button>
++            <div className="flex items-center gap-2">
++              {extraActions ? extraActions(data) : null}
++              <Button onClick={() => setFormOpen(true)}>
++                <Plus size={15} aria-hidden />
++                {addLabel}
++              </Button>
++            </div>
+           }
+         />
+ 
+@@ -130,6 +139,6 @@
+           onCancel={() => setFormOpen(false)}
+         />
+       </Modal>
+-    </>
++    </div>
+   );
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"7abd7438-5784-4cec-9732-947f62f6eb1a\" name=\"Changes\" comment=\"initialize Next.js project with Tailwind CSS and ESLint configuration\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ComposerSettings\">\n    <execution>\n      <executable />\n    </execution>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"Develop\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitToolBoxStore\">\n    <option name=\"recentBranches\">\n      <RecentBranches>\n        <option name=\"branchesForRepo\">\n          <list>\n            <RecentBranchesForRepo>\n              <option name=\"branches\">\n                <list>\n                  <RecentBranch>\n                    <option name=\"branchName\" value=\"feat/initial-components-and-utilities\" />\n                    <option name=\"lastUsedInstant\" value=\"1787197865\" />\n                  </RecentBranch>\n                  <RecentBranch>\n                    <option name=\"branchName\" value=\"Develop\" />\n                    <option name=\"lastUsedInstant\" value=\"1787197800\" />\n                  </RecentBranch>\n                  <RecentBranch>\n                    <option name=\"branchName\" value=\"feat/update-config\" />\n                    <option name=\"lastUsedInstant\" value=\"1787048706\" />\n                  </RecentBranch>\n                  <RecentBranch>\n                    <option name=\"branchName\" value=\"feat/install-next-laravel\" />\n                    <option name=\"lastUsedInstant\" value=\"1786963120\" />\n                  </RecentBranch>\n                  <RecentBranch>\n                    <option name=\"branchName\" value=\"main\" />\n                    <option name=\"lastUsedInstant\" value=\"1786959732\" />\n                  </RecentBranch>\n                </list>\n              </option>\n              <option name=\"repositoryRootUrl\" value=\"file://$PROJECT_DIR$\" />\n            </RecentBranchesForRepo>\n          </list>\n        </option>\n      </RecentBranches>\n    </option>\n  </component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/MohammedAAlsaeed/ERP.git&quot;,\n    &quot;accountId&quot;: &quot;0a069306-3e67-4012-a68d-0e55b9bb87b9&quot;\n  }\n}</component>\n  <component name=\"McpProjectServerCommands\">\n    <commands />\n    <urls />\n  </component>\n  <component name=\"NextEditCompletionFeaturesState\">\n    <decayedCancelled>\n      <entry key=\"MS100\" value=\"1.0036262796586204\" />\n      <entry key=\"MS500\" value=\"1.6099544128798233\" />\n      <entry key=\"S2\" value=\"2.968444330662343\" />\n      <entry key=\"S5\" value=\"3.529545453262302\" />\n      <entry key=\"S10\" value=\"3.7538048327510527\" />\n      <entry key=\"S30\" value=\"3.9153587106838126\" />\n      <entry key=\"S60\" value=\"3.957348211333856\" />\n      <entry key=\"M2\" value=\"3.978739734489902\" />\n      <entry key=\"M5\" value=\"4.532715129661003\" />\n      <entry key=\"M10\" value=\"13.190499845914369\" />\n      <entry key=\"M15\" value=\"29.03787569519973\" />\n      <entry key=\"M30\" value=\"78.36953269163406\" />\n      <entry key=\"H1\" value=\"140.3534049589645\" />\n      <entry key=\"H2\" value=\"192.9924903579242\" />\n      <entry key=\"H4\" value=\"228.06344944860564\" />\n      <entry key=\"D1\" value=\"263.215946519311\" />\n      <entry key=\"W1\" value=\"269.87140638120337\" />\n    </decayedCancelled>\n    <decayedSelected>\n      <entry key=\"MS100\" value=\"0.0\" />\n      <entry key=\"MS500\" value=\"0.0\" />\n      <entry key=\"S2\" value=\"0.0\" />\n      <entry key=\"S5\" value=\"3.1060947810158277E-146\" />\n      <entry key=\"S10\" value=\"1.762411637789485E-73\" />\n      <entry key=\"S30\" value=\"5.606637554680452E-25\" />\n      <entry key=\"S60\" value=\"7.490562350433977E-13\" />\n      <entry key=\"M2\" value=\"8.890101680759472E-7\" />\n      <entry key=\"M5\" value=\"0.005155933425810062\" />\n      <entry key=\"M10\" value=\"0.12395595124297829\" />\n      <entry key=\"M15\" value=\"0.3979104172911732\" />\n      <entry key=\"M30\" value=\"1.422795334599383\" />\n      <entry key=\"H1\" value=\"2.8511688993115825\" />\n      <entry key=\"H2\" value=\"4.109043939011635\" />\n      <entry key=\"H4\" value=\"4.956938617615885\" />\n      <entry key=\"D1\" value=\"5.810653433225484\" />\n      <entry key=\"W1\" value=\"5.972542274599932\" />\n    </decayedSelected>\n    <decayedShown>\n      <entry key=\"MS100\" value=\"0.9365822565226026\" />\n      <entry key=\"MS500\" value=\"1.593007677417535\" />\n      <entry key=\"S2\" value=\"2.962139378601741\" />\n      <entry key=\"S5\" value=\"3.526663794534246\" />\n      <entry key=\"S10\" value=\"3.752291142070843\" />\n      <entry key=\"S30\" value=\"3.9148365495066937\" />\n      <entry key=\"S60\" value=\"3.9570848372655103\" />\n      <entry key=\"M2\" value=\"3.9786083506466103\" />\n      <entry key=\"M5\" value=\"4.5378045085204075\" />\n      <entry key=\"M10\" value=\"13.314217774168686\" />\n      <entry key=\"M15\" value=\"29.43525473822879\" />\n      <entry key=\"M30\" value=\"79.79127485542499\" />\n      <entry key=\"H1\" value=\"143.2034642308501\" />\n      <entry key=\"H2\" value=\"197.10071744668053\" />\n      <entry key=\"H4\" value=\"233.0198907189002\" />\n      <entry key=\"D1\" value=\"269.02650209550006\" />\n      <entry key=\"W1\" value=\"275.8439342703379\" />\n    </decayedShown>\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"autoscrollFromSource\" value=\"true\" />\n    <option name=\"autoscrollToSource\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\n    \"git-widget-placeholder\": \"#3 on feat/initial-components-and-utilities\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"ts.external.directory.path\": \"/Applications/PhpStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external\"\n  }\n}]]></component>\n  <component name=\"TaskManager\">\n    <task id=\"LOCAL-00001\" summary=\"initialize Next.js project with Tailwind CSS and ESLint configuration\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1786960590913</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1786960590913</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"2\" />\n    <servers />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"initialize Next.js project with Tailwind CSS and ESLint configuration\" />\n    <MESSAGE value=\"feat:Update workspace configuration and add PHP project settings\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"feat:Update workspace configuration and add PHP project settings\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/.idea/workspace.xml	(date 1787915598997)
+@@ -4,25 +4,44 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="initialize Next.js project with Tailwind CSS and ESLint configuration" />
++    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="feat:Update workspace configuration and add PHP project settings">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/frontend/src/components/resource-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/resource-page.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/customers-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/customers-view.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/employees-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/employees-view.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/invoices-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/invoices-view.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/products-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/products-view.tsx" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/frontend/src/components/views/suppliers-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/views/suppliers-view.tsx" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
+-  <component name="ComposerSettings">
++  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
++    <pharConfigPath>$PROJECT_DIR$/Backend/composer.json</pharConfigPath>
+     <execution>
+       <executable />
+     </execution>
+   </component>
++  <component name="EmbeddingIndexingInfo">
++    <option name="cachedIndexableFilesCount" value="8750" />
++    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
++  </component>
+   <component name="Git.Settings">
+     <option name="RECENT_BRANCH_BY_REPOSITORY">
+       <map>
+-        <entry key="$PROJECT_DIR$" value="Develop" />
++        <entry key="$PROJECT_DIR$" value="feat/initial-components-and-utilities" />
+       </map>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
++  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
++  "lastFilter": {
++    "state": "OPEN",
++    "assignee": "MohammedAAlsaeed"
++  }
++}]]></component>
+   <component name="GitToolBoxStore">
+     <option name="recentBranches">
+       <RecentBranches>
+@@ -72,63 +91,182 @@
+   </component>
+   <component name="NextEditCompletionFeaturesState">
+     <decayedCancelled>
+-      <entry key="MS100" value="1.0036262796586204" />
+-      <entry key="MS500" value="1.6099544128798233" />
+-      <entry key="S2" value="2.968444330662343" />
+-      <entry key="S5" value="3.529545453262302" />
+-      <entry key="S10" value="3.7538048327510527" />
+-      <entry key="S30" value="3.9153587106838126" />
+-      <entry key="S60" value="3.957348211333856" />
+-      <entry key="M2" value="3.978739734489902" />
+-      <entry key="M5" value="4.532715129661003" />
+-      <entry key="M10" value="13.190499845914369" />
+-      <entry key="M15" value="29.03787569519973" />
+-      <entry key="M30" value="78.36953269163406" />
+-      <entry key="H1" value="140.3534049589645" />
+-      <entry key="H2" value="192.9924903579242" />
+-      <entry key="H4" value="228.06344944860564" />
+-      <entry key="D1" value="263.215946519311" />
+-      <entry key="W1" value="269.87140638120337" />
++      <entry key="MS100" value="1.089689714930229" />
++      <entry key="MS500" value="2.4087382780590505" />
++      <entry key="S2" value="6.219687790792926" />
++      <entry key="S5" value="11.698154274509506" />
++      <entry key="S10" value="17.818235056097837" />
++      <entry key="S30" value="26.60850183562852" />
++      <entry key="S60" value="29.96097458226031" />
++      <entry key="M2" value="31.885339340828164" />
++      <entry key="M5" value="33.12998183879088" />
++      <entry key="M10" value="33.560849758601194" />
++      <entry key="M15" value="33.70630414791141" />
++      <entry key="M30" value="33.85268534943103" />
++      <entry key="H1" value="33.926225576829765" />
++      <entry key="H2" value="33.96308346254176" />
++      <entry key="H4" value="33.982016985898014" />
++      <entry key="D1" value="63.820960577738916" />
++      <entry key="W1" value="231.7194403889562" />
+     </decayedCancelled>
+     <decayedSelected>
+       <entry key="MS100" value="0.0" />
+       <entry key="MS500" value="0.0" />
+       <entry key="S2" value="0.0" />
+-      <entry key="S5" value="3.1060947810158277E-146" />
+-      <entry key="S10" value="1.762411637789485E-73" />
+-      <entry key="S30" value="5.606637554680452E-25" />
+-      <entry key="S60" value="7.490562350433977E-13" />
+-      <entry key="M2" value="8.890101680759472E-7" />
+-      <entry key="M5" value="0.005155933425810062" />
+-      <entry key="M10" value="0.12395595124297829" />
+-      <entry key="M15" value="0.3979104172911732" />
+-      <entry key="M30" value="1.422795334599383" />
+-      <entry key="H1" value="2.8511688993115825" />
+-      <entry key="H2" value="4.109043939011635" />
+-      <entry key="H4" value="4.956938617615885" />
+-      <entry key="D1" value="5.810653433225484" />
+-      <entry key="W1" value="5.972542274599932" />
++      <entry key="S5" value="0.0" />
++      <entry key="S10" value="0.0" />
++      <entry key="S30" value="0.0" />
++      <entry key="S60" value="0.0" />
++      <entry key="M2" value="0.0" />
++      <entry key="M5" value="2.1753820238635974E-275" />
++      <entry key="M10" value="8.05158718006486E-138" />
++      <entry key="M15" value="6.429759378565936E-92" />
++      <entry key="M30" value="5.719356108429489E-46" />
++      <entry key="H1" value="5.716435372906181E-23" />
++      <entry key="H2" value="1.8398904353470822E-11" />
++      <entry key="H4" value="1.0489121818148614E-5" />
++      <entry key="D1" value="0.6583839545223287" />
++      <entry key="W1" value="4.375751988546821" />
+     </decayedSelected>
+     <decayedShown>
+-      <entry key="MS100" value="0.9365822565226026" />
+-      <entry key="MS500" value="1.593007677417535" />
+-      <entry key="S2" value="2.962139378601741" />
+-      <entry key="S5" value="3.526663794534246" />
+-      <entry key="S10" value="3.752291142070843" />
+-      <entry key="S30" value="3.9148365495066937" />
+-      <entry key="S60" value="3.9570848372655103" />
+-      <entry key="M2" value="3.9786083506466103" />
+-      <entry key="M5" value="4.5378045085204075" />
+-      <entry key="M10" value="13.314217774168686" />
+-      <entry key="M15" value="29.43525473822879" />
+-      <entry key="M30" value="79.79127485542499" />
+-      <entry key="H1" value="143.2034642308501" />
+-      <entry key="H2" value="197.10071744668053" />
+-      <entry key="H4" value="233.0198907189002" />
+-      <entry key="D1" value="269.02650209550006" />
+-      <entry key="W1" value="275.8439342703379" />
++      <entry key="MS100" value="1.045914103753427" />
++      <entry key="MS500" value="2.3915342231209045" />
++      <entry key="S2" value="6.209609868370405" />
++      <entry key="S5" value="11.690369462051954" />
++      <entry key="S10" value="17.811782007464377" />
++      <entry key="S30" value="26.604964843652265" />
++      <entry key="S60" value="29.958927000085023" />
++      <entry key="M2" value="31.884234118760546" />
++      <entry key="M5" value="33.12951850023552" />
++      <entry key="M10" value="33.56061439557004" />
++      <entry key="M15" value="33.70614640674653" />
++      <entry key="M30" value="33.85260605966206" />
++      <entry key="H1" value="33.92618582659243" />
++      <entry key="H2" value="33.96306356103343" />
++      <entry key="H4" value="33.982017516593324" />
++      <entry key="D1" value="64.47933178395597" />
++      <entry key="W1" value="236.09518160083255" />
+     </decayedShown>
+   </component>
++  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/opt/homebrew/Cellar/php/8.5.2/bin/php">
++    <include_path>
++      <path value="$PROJECT_DIR$/Backend/vendor/ramsey/collection" />
++      <path value="$PROJECT_DIR$/Backend/vendor/ramsey/uuid" />
++      <path value="$PROJECT_DIR$/Backend/vendor/monolog/monolog" />
++      <path value="$PROJECT_DIR$/Backend/vendor/nunomaduro/termwind" />
++      <path value="$PROJECT_DIR$/Backend/vendor/nunomaduro/collision" />
++      <path value="$PROJECT_DIR$/Backend/vendor/league/mime-type-detection" />
++      <path value="$PROJECT_DIR$/Backend/vendor/league/config" />
++      <path value="$PROJECT_DIR$/Backend/vendor/league/commonmark" />
++      <path value="$PROJECT_DIR$/Backend/vendor/league/uri" />
++      <path value="$PROJECT_DIR$/Backend/vendor/league/uri-interfaces" />
++      <path value="$PROJECT_DIR$/Backend/vendor/league/flysystem-local" />
++      <path value="$PROJECT_DIR$/Backend/vendor/league/flysystem" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phpunit/php-invoker" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phpunit/php-timer" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phpunit/php-file-iterator" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phpunit/php-text-template" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phpunit/php-code-coverage" />
++      <path value="$PROJECT_DIR$/Backend/vendor/nesbot/carbon" />
++      <path value="$PROJECT_DIR$/Backend/vendor/hamcrest/hamcrest-php" />
++      <path value="$PROJECT_DIR$/Backend/vendor/laravel/prompts" />
++      <path value="$PROJECT_DIR$/Backend/vendor/laravel/pao" />
++      <path value="$PROJECT_DIR$/Backend/vendor/laravel/agent-detector" />
++      <path value="$PROJECT_DIR$/Backend/vendor/laravel/serializable-closure" />
++      <path value="$PROJECT_DIR$/Backend/vendor/laravel/tinker" />
++      <path value="$PROJECT_DIR$/Backend/vendor/laravel/pint" />
++      <path value="$PROJECT_DIR$/Backend/vendor/laravel/framework" />
++      <path value="$PROJECT_DIR$/Backend/vendor/laravel/pail" />
++      <path value="$PROJECT_DIR$/Backend/vendor/composer" />
++      <path value="$PROJECT_DIR$/Backend/vendor/theseer/tokenizer" />
++      <path value="$PROJECT_DIR$/Backend/vendor/tijsverkoyen/css-to-inline-styles" />
++      <path value="$PROJECT_DIR$/Backend/vendor/dragonmantank/cron-expression" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psr/simple-cache" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psr/http-factory" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psr/clock" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psr/http-client" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psr/container" />
++      <path value="$PROJECT_DIR$/Backend/vendor/filp/whoops" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psr/event-dispatcher" />
++      <path value="$PROJECT_DIR$/Backend/vendor/brick/math" />
++      <path value="$PROJECT_DIR$/Backend/vendor/guzzlehttp/uri-template" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psr/http-message" />
++      <path value="$PROJECT_DIR$/Backend/vendor/guzzlehttp/psr7" />
++      <path value="$PROJECT_DIR$/Backend/vendor/myclabs/deep-copy" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psr/log" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/finder" />
++      <path value="$PROJECT_DIR$/Backend/vendor/mockery/mockery" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/deprecation-contracts" />
++      <path value="$PROJECT_DIR$/Backend/vendor/guzzlehttp/guzzle" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/clock" />
++      <path value="$PROJECT_DIR$/Backend/vendor/guzzlehttp/promises" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php84" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/routing" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/css-selector" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-intl-grapheme" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php80" />
++      <path value="$PROJECT_DIR$/Backend/vendor/doctrine/inflector" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-intl-normalizer" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/mime" />
++      <path value="$PROJECT_DIR$/Backend/vendor/graham-campbell/result-type" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/mailer" />
++      <path value="$PROJECT_DIR$/Backend/vendor/doctrine/lexer" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/error-handler" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-ctype" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-intl-idn" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/event-dispatcher-contracts" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php86" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/console" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/event-dispatcher" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php85" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/http-foundation" />
++      <path value="$PROJECT_DIR$/Backend/vendor/staabm/side-effects-detector" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/var-dumper" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/http-kernel" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/uid" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/service-contracts" />
++      <path value="$PROJECT_DIR$/Backend/vendor/carbonphp/carbon-doctrine-types" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/translation-contracts" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/translation" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/string" />
++      <path value="$PROJECT_DIR$/Backend/vendor/nette/schema" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/process" />
++      <path value="$PROJECT_DIR$/Backend/vendor/vlucas/phpdotenv" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-mbstring" />
++      <path value="$PROJECT_DIR$/Backend/vendor/nette/utils" />
++      <path value="$PROJECT_DIR$/Backend/vendor/symfony/polyfill-uuid" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phar-io/manifest" />
++      <path value="$PROJECT_DIR$/Backend/vendor/fruitcake/php-cors" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phar-io/version" />
++      <path value="$PROJECT_DIR$/Backend/vendor/voku/portable-ascii" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phpoption/phpoption" />
++      <path value="$PROJECT_DIR$/Backend/vendor/ralouphie/getallheaders" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/type" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/object-enumerator" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/comparator" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/diff" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/lines-of-code" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/version" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/complexity" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/exporter" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/cli-parser" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/environment" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/object-reflector" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/recursion-context" />
++      <path value="$PROJECT_DIR$/Backend/vendor/phpunit/phpunit" />
++      <path value="$PROJECT_DIR$/Backend/vendor/sebastian/global-state" />
++      <path value="$PROJECT_DIR$/Backend/vendor/psy/psysh" />
++      <path value="$PROJECT_DIR$/Backend/vendor/dflydev/dot-access-data" />
++      <path value="$PROJECT_DIR$/Backend/vendor/fakerphp/faker" />
++      <path value="$PROJECT_DIR$/Backend/vendor/nikic/php-parser" />
++      <path value="$PROJECT_DIR$/Backend/vendor/egulias/email-validator" />
++    </include_path>
++  </component>
++  <component name="ProjectColorInfo"><![CDATA[{
++  "customColor": "",
++  "associatedIndex": 0
++}]]></component>
++  <component name="ProjectId" id="3IXcsl9JLKDPY4wNDPkOAsYrvOR" />
+   <component name="ProjectViewState">
+     <option name="autoscrollFromSource" value="true" />
+     <option name="autoscrollToSource" value="true" />
+@@ -136,12 +274,42 @@
+   <component name="PropertiesComponent"><![CDATA[{
+   "keyToString": {
+     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
++    "RunOnceActivity.MCP Project settings loaded": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "RunOnceActivity.git.unshallow": "true",
++    "RunOnceActivity.laravel_idea.move_run_console_settings": "true",
++    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "git-widget-placeholder": "#3 on feat/initial-components-and-utilities",
++    "codeWithMe.voiceChat.enabledByDefault": "false",
++    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
++    "git-widget-placeholder": "Develop",
++    "junie.onboarding.icon.badge.shown": "true",
++    "node.js.detected.package.eslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
+     "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "to.speed.mode.migration.done": "true",
+     "ts.external.directory.path": "/Applications/PhpStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external"
+   }
+ }]]></component>
++  <component name="RunManager">
++    <configuration default="true" type="ComposerRunConfigurationType" factoryName="Composer Script">
++      <option name="pathToComposerJson" value="$PROJECT_DIR$/Backend/composer.json" />
++      <method v="2" />
++    </configuration>
++    <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
++      <TestRunner configuration_file="$PROJECT_DIR$/Backend/phpunit.xml" scope="XML" use_alternative_configuration_file="true" />
++      <method v="2" />
++    </configuration>
++  </component>
++  <component name="SharedIndexes">
++    <attachedChunks>
++      <set>
++        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-PS-262.9437.196" />
++        <option value="bundled-php-predefined-a98d8de5180a-9522f28f0b20-com.jetbrains.php.sharedIndexes-PS-262.9437.196" />
++      </set>
++    </attachedChunks>
++  </component>
+   <component name="TaskManager">
+     <task id="LOCAL-00001" summary="initialize Next.js project with Tailwind CSS and ESLint configuration">
+       <option name="closed" value="true" />
+@@ -150,9 +318,20 @@
+       <option name="presentableId" value="LOCAL-00001" />
+       <option name="project" value="LOCAL" />
+       <updated>1786960590913</updated>
++    </task>
++    <task active="true" id="Default" summary="Default task">
++      <changelist id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="feat:Update workspace configuration and add PHP project settings" />
++      <created>1787914563096</created>
++      <option name="number" value="Default" />
++      <option name="presentableId" value="Default" />
++      <updated>1787914563096</updated>
++      <workItem from="1787914564124" duration="1033000" />
+     </task>
+     <option name="localTasksCounter" value="2" />
+     <servers />
++  </component>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="initialize Next.js project with Tailwind CSS and ESLint configuration" />
+Index: .idea/php.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"PhpIncludePathManager\">\n    <include_path>\n      <path value=\"$PROJECT_DIR$/Backend/vendor/ramsey/collection\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/ramsey/uuid\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/monolog/monolog\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/nunomaduro/termwind\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/nunomaduro/collision\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/league/mime-type-detection\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/league/config\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/league/commonmark\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/league/uri\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/league/uri-interfaces\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/league/flysystem-local\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/league/flysystem\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phpunit/php-invoker\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phpunit/php-timer\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phpunit/php-file-iterator\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phpunit/php-text-template\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phpunit/php-code-coverage\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/nesbot/carbon\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/hamcrest/hamcrest-php\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/laravel/prompts\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/laravel/pao\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/laravel/agent-detector\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/laravel/serializable-closure\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/laravel/tinker\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/laravel/pint\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/laravel/framework\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/laravel/pail\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/composer\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/theseer/tokenizer\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/tijsverkoyen/css-to-inline-styles\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/dragonmantank/cron-expression\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psr/simple-cache\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psr/http-factory\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psr/clock\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psr/http-client\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psr/container\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/filp/whoops\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psr/event-dispatcher\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/brick/math\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/guzzlehttp/uri-template\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psr/http-message\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/guzzlehttp/psr7\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/myclabs/deep-copy\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psr/log\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/finder\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/mockery/mockery\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/deprecation-contracts\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/guzzlehttp/guzzle\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/clock\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/guzzlehttp/promises\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php84\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/routing\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/css-selector\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-intl-grapheme\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php80\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/doctrine/inflector\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-intl-normalizer\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/mime\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/graham-campbell/result-type\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/mailer\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/doctrine/lexer\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/error-handler\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-ctype\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-intl-idn\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/event-dispatcher-contracts\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php86\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/console\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/event-dispatcher\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-php85\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/http-foundation\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/staabm/side-effects-detector\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/var-dumper\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/http-kernel\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/uid\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/service-contracts\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/carbonphp/carbon-doctrine-types\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/translation-contracts\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/translation\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/string\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/nette/schema\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/process\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/vlucas/phpdotenv\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-mbstring\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/nette/utils\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/symfony/polyfill-uuid\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phar-io/manifest\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/fruitcake/php-cors\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phar-io/version\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/voku/portable-ascii\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phpoption/phpoption\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/ralouphie/getallheaders\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/type\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/object-enumerator\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/comparator\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/diff\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/lines-of-code\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/version\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/complexity\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/exporter\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/cli-parser\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/environment\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/object-reflector\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/recursion-context\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/phpunit/phpunit\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/sebastian/global-state\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/psy/psysh\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/dflydev/dot-access-data\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/fakerphp/faker\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/nikic/php-parser\" />\n      <path value=\"$PROJECT_DIR$/Backend/vendor/egulias/email-validator\" />\n    </include_path>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/php.xml b/.idea/php.xml
+--- a/.idea/php.xml	(revision a67cca2cf9bd472cf4f3547da6680a7a03e68d6c)
++++ b/.idea/php.xml	(date 1787915599004)
+@@ -1,5 +1,20 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="LaravelPint">
++    <laravel_pint_settings>
++      <LaravelPintConfiguration tool_path="$PROJECT_DIR$/Backend/vendor/bin/pint" />
++    </laravel_pint_settings>
++  </component>
++  <component name="MessDetectorOptionsConfiguration">
++    <option name="transferred" value="true" />
++  </component>
++  <component name="PHPCSFixerOptionsConfiguration">
++    <option name="transferred" value="true" />
++  </component>
++  <component name="PHPCodeSnifferOptionsConfiguration">
++    <option name="highlightLevel" value="WARNING" />
++    <option name="transferred" value="true" />
++  </component>
+   <component name="PhpIncludePathManager">
+     <include_path>
+       <path value="$PROJECT_DIR$/Backend/vendor/ramsey/collection" />
+@@ -114,4 +129,16 @@
+       <path value="$PROJECT_DIR$/Backend/vendor/egulias/email-validator" />
+     </include_path>
+   </component>
++  <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
++  <component name="PhpStanOptionsConfiguration">
++    <option name="transferred" value="true" />
++  </component>
++  <component name="PhpUnit">
++    <phpunit_settings>
++      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/Backend/phpunit.xml" custom_loader_path="$PROJECT_DIR$/Backend/vendor/autoload.php" use_configuration_file="true" />
++    </phpunit_settings>
++  </component>
++  <component name="PsalmOptionsConfiguration">
++    <option name="transferred" value="true" />
++  </component>
+ </project>
+\ No newline at end of file
