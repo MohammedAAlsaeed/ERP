@@ -7,12 +7,7 @@
     <option name="selectedModelId" value="auto" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="feat:Add CSV export functionality to customers, employees, invoices, products, and suppliers views">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/shell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/shell.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="7abd7438-5784-4cec-9732-947f62f6eb1a" name="Changes" comment="feat:Add CSV export functionality to customers, employees, invoices, products, and suppliers views" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -304,7 +299,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "copilot.chat.legacySessionMetadata.migrated": "true",
-    "git-widget-placeholder": "feat/translate-lib",
+    "git-widget-placeholder": "Develop",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -355,6 +350,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initialize Next.js project with Tailwind CSS and ESLint configuration" />
     <MESSAGE value="feat:Update workspace configuration and add PHP project settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:Update workspace configuration and add PHP project settings" />
+    <MESSAGE value="feat:Add localization support with Arabic translations and language toggle functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat:Add localization support with Arabic translations and language toggle functionality" />
   </component>
 </project>
